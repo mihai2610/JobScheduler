@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace JobScheduler.Infrastructure.Utils;
+namespace JobScheduler.Infrastructure.DependencyInjection.DbClient;
 
 public class ConnectionStrings
 {

@@ -1,4 +1,5 @@
 ﻿using JobScheduler.Infrastructure.DependencyInjection;
+using JobScheduler.Infrastructure.Extentions;
 using JobScheduler.Services;
 using JobScheduler.Services.Interfaces;
 
@@ -12,7 +13,10 @@ public static class ConfigurationExtentions
         services.AddScoped<IJobService, JobService>();
 
         //Infrastructure
-        services.AddInfrastructure(configuration.GetSection("ConnectionStrings").Bind);
+        services.AddInfrastructure();
+
+        //DI
+        services.AddDependencyInjection(configuration.GetSection("ConnectionStrings").Bind);
 
         return services;
     }

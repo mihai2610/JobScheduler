@@ -1,5 +1,5 @@
 ﻿using JobScheduler.Api.Extentions;
-using JobScheduler.Infrastructure.DependencyInjection.DapperClient.Bootstrap;
+using JobScheduler.Infrastructure.DependencyInjection.DbClient.Bootstrap;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);

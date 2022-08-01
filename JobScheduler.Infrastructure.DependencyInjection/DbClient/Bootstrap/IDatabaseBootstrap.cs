@@ -1,4 +1,4 @@
-﻿namespace JobScheduler.Infrastructure.DependencyInjection.DapperClient.Bootstrap;
+﻿namespace JobScheduler.Infrastructure.DependencyInjection.DbClient.Bootstrap;
 
 /// <summary>
 /// Provides the inital setup for the database

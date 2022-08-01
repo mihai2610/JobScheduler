@@ -1,7 +1,6 @@
 ﻿using Dapper;
-using JobScheduler.Infrastructure.Utils;
 
-namespace JobScheduler.Infrastructure.DependencyInjection.DapperClient.Bootstrap;
+namespace JobScheduler.Infrastructure.DependencyInjection.DbClient.Bootstrap;
 
 /// <inheritdoc/>
 public class DatabaseBootstrap : IDatabaseBootstrap

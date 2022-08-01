@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using JobScheduler.Commands;
-using JobScheduler.Infrastructure.Models;
-using JobScheduler.Infrastructure.Utils;
+using JobScheduler.Infrastructure.DependencyInjection.DbClient;
 using JobScheduler.Models;
 using System.Text.Json;
 

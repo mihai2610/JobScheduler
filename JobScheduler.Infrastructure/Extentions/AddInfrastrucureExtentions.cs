@@ -1,25 +1,15 @@
 ﻿using JobScheduler.Commands;
 using JobScheduler.Infrastructure.Commands;
-using JobScheduler.Infrastructure.DependencyInjection.DapperClient;
-using JobScheduler.Infrastructure.DependencyInjection.DapperClient.Bootstrap;
 using JobScheduler.Infrastructure.Queries;
-using JobScheduler.Infrastructure.Utils;
 using JobScheduler.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JobScheduler.Infrastructure.DependencyInjection
+namespace JobScheduler.Infrastructure.Extentions
 {
     public static class AddInfrastrucureExtentions
     {
-        public static IServiceCollection AddInfrastructure(
-            this IServiceCollection services,
-            Action<ConnectionStrings> connectionStringsConfig)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            //DBContext
-            services.Configure(connectionStringsConfig);
-            services.AddSingleton<DbContext>();
-            services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
-
             //Queries
             services.AddScoped<IGetAllJobsQuery, GetAllJobsQuery>();
             services.AddScoped<IGetJobByIdQuery, GetJobByIdQuery>();

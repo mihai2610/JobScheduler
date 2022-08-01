@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 
-namespace JobScheduler.Infrastructure.Utils;
+namespace JobScheduler.Infrastructure.DependencyInjection.DbClient;
 
 public class DbContext
 {

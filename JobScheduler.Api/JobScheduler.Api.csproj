@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JobScheduler.Infrastructure.DependencyInjection\JobScheduler.Infrastructure.DependencyInjection.csproj" />
-    <ProjectReference Include="..\JobScheduler\JobScheduler.csproj" />
+    <ProjectReference Include="..\JobScheduler.Infrastructure\JobScheduler.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
