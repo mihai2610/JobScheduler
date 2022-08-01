@@ -4,10 +4,10 @@ namespace JobScheduler.Models
 {
     public record Job(
         long JobId,
-        TimeSpan Timestamp,
-        TimeSpan Duration,
+        DateTime StartingTime,
+        TimeSpan? Duration,
         JobStatusType Status,
         IReadOnlyCollection<int> Input,
-        IReadOnlyCollection<int> Output
+        IReadOnlyCollection<int>? Output
     );
 }

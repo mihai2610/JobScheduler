@@ -6,9 +6,9 @@ namespace JobScheduler.Api.Models.Converters
     {
         public static JobView ToView(this Job job) => new(
             job.JobId,
-            job.Timestamp,
+            job.StartingTime,
             job.Duration,
-            (JobStatusTypeView)job.Status,
+            job.Status.ToString(),
             job.Input,
             job.Output
         );

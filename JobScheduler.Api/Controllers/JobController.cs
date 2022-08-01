@@ -9,7 +9,8 @@ namespace JobScheduler.Api.Controllers
     /// Controller to perform job operations
     /// </summary>
     [ApiController]
-    [Route("job")]
+    [ApiVersion("1.0")]
+    [Route("v{version:apiVersion}/job")]
     public class JobController : ControllerBase
     {
         private readonly IJobService _jobService;
@@ -27,8 +28,8 @@ namespace JobScheduler.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<long>> Create([FromBody]JobRequest job)
         {
-            await _jobService.CreateJob(job.Input);
-            return Ok();
+            var jobId = await _jobService.CreateJob(job.Input);
+            return Ok(jobId);
         }
 
         [HttpGet]
