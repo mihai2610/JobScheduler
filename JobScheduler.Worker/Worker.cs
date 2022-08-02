@@ -7,12 +7,12 @@ namespace JobScheduler.Worker
     public class Worker<TJob, TInput, TOutput> : BackgroundService where TJob : IJob<TInput, TOutput>, new()
     {
         private readonly ILogger<Worker<TJob, TInput, TOutput>> _logger;
-        private readonly IRabbitMqContext _rabbitMqContext;
+        private readonly IRabbitMqClient _rabbitMqContext;
         private readonly IUpdateJobCommand _updateJobCommand;
 
         public Worker(
             ILogger<Worker<TJob, TInput, TOutput>> logger,
-            IRabbitMqContext rabbitMqContext,
+            IRabbitMqClient rabbitMqContext,
             IUpdateJobCommand updateJobCommand)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -43,6 +43,8 @@ namespace JobScheduler.Worker
                 Output = await job.Execute(job.Input),
                 Input = job.Input
             };
+
+            _logger.LogInformation($"Updated job {updatedjob.JobId} {string.Join(",", updatedjob.Output)} {updatedjob.Status}");
 
             await _updateJobCommand.Execute<TJob, TInput, TOutput>(updatedjob);
         }

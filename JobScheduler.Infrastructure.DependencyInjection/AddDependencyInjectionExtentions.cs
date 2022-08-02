@@ -19,7 +19,7 @@ namespace JobScheduler.Infrastructure.DependencyInjection
 
             //MQContext
             services.Configure(mqConfig);
-            services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
+            services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 
             return services;
         }

@@ -9,13 +9,13 @@ namespace JobScheduler.Infrastructure.Commands.Decorators
     /// </summary>
     public class PublishJobCreationDecorator : ICreateJobCommand
     {
-        private readonly IRabbitMqContext _mqContext;
+        private readonly IRabbitMqClient _mqContext;
         private readonly ICreateJobCommand _createJobCommand;
 
         /// <summary>
         /// Creates an instance of <see cref="PublishJobCreationDecorator"/>
         /// </summary>
-        public PublishJobCreationDecorator(IRabbitMqContext mqContext, ICreateJobCommand createJobCommand)
+        public PublishJobCreationDecorator(IRabbitMqClient mqContext, ICreateJobCommand createJobCommand)
         {
             _mqContext = mqContext ?? throw new ArgumentNullException(nameof(mqContext));
             _createJobCommand = createJobCommand ?? throw new ArgumentNullException(nameof(createJobCommand));
