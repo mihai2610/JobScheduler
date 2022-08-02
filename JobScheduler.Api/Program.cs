@@ -18,7 +18,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices(builder.Configuration);
 
 
-
 var app = builder.Build();
 
 app.Services.GetRequiredService<IDatabaseBootstrap>().Setup();

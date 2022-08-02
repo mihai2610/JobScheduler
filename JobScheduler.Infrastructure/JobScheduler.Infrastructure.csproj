@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Scrutor" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\JobScheduler.Infrastructure.DependencyInjection\JobScheduler.Infrastructure.DependencyInjection.csproj" />
     <ProjectReference Include="..\JobScheduler\JobScheduler.csproj" />
   </ItemGroup>

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace JobScheduler.Models
+﻿namespace JobScheduler.Models
 {
     public record Job(
         long JobId,

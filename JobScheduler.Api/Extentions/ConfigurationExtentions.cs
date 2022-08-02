@@ -16,7 +16,10 @@ public static class ConfigurationExtentions
         services.AddInfrastructure();
 
         //DI
-        services.AddDependencyInjection(configuration.GetSection("ConnectionStrings").Bind);
+        services.AddDependencyInjection(
+            configuration.GetSection("ConnectionStrings").Bind,
+            configuration.GetSection("RabbitMqIdentifier").Bind
+        );
 
         return services;
     }

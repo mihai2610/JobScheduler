@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using JobScheduler.Infrastructure.DependencyInjection.DbClient;
 using JobScheduler.Infrastructure.Models;
+using JobScheduler.Infrastructure.Models.Converters;
 using JobScheduler.Models;
 using JobScheduler.Queries;
-using System.Text.Json;
 
 namespace JobScheduler.Infrastructure.Queries;
 
@@ -27,14 +27,7 @@ public class GetJobByIdQuery : IGetJobByIdQuery
 
         var result = await conn.QuerySingleOrDefaultAsync<JobDto>(_sql, new { JobId = jobId });
 
-        return new Job(
-            JobId: result.JobId,
-            StartingTime: DateTime.Parse(result.StartingTime),
-            Duration: result.Duration is null ? null : TimeSpan.Parse(result.Duration),
-            Status: (JobStatusType)result.Status,
-            Input: JsonSerializer.Deserialize<IReadOnlyCollection<int>>(result.Input),
-            Output: result.Output is null ? null : JsonSerializer.Deserialize<IReadOnlyCollection<int>>(result.Output)
-        );
+        return result.ToModel();
     }
 
     private readonly static string _sql = $@"

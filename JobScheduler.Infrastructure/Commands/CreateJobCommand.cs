@@ -31,6 +31,7 @@ public class CreateJobCommand : ICreateJobCommand
 
         var result = await conn.QuerySingleAsync<long>(_sql, request);
 
+
         return result;
     }
 
