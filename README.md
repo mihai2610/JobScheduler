@@ -28,7 +28,7 @@ You can use:
   External clients are implemented here and are used in the infrastructure layer
 
 #### Worker
-  Evry 5 seconds reads messages from the Queue, performes the job and store the result in the database
+  Every 5 seconds reads messages from the Queue, performes the job and store the result in the database
 
   # Solution
   
