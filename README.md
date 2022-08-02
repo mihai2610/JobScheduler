@@ -15,6 +15,21 @@ You can use:
 
 ![image](https://user-images.githubusercontent.com/14985894/182467326-5e4bedd8-bb02-4ee9-8c4b-499e7b6a6100.png)
 
+#### Api
+  Contains controllers and view models
+  
+#### Domain
+  Layer that contains business logic and models
+
+#### Infrastructure
+  Layer that performs all the interactions with external tools
+
+#### External Packages
+  External clients are implemented here and are used in the infrastructure layer
+
+#### Worker
+  Evry 5 seconds reads messages from the Queue, performes the job and store the result in the database
+
   # Solution
   
   ![image](https://user-images.githubusercontent.com/14985894/182472226-1dc10b84-124d-45fd-bb64-d26cade12f3d.png)
