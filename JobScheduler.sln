@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduler.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduler.Infrastructure.DependencyInjection", "JobScheduler.Infrastructure.DependencyInjection\JobScheduler.Infrastructure.DependencyInjection.csproj", "{C0DF3B81-6CA8-47D8-8965-F6FAE87DEABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobScheduler.Worker", "JobScheduler.Worker\JobScheduler.Worker.csproj", "{C936753F-FA18-4EBF-B78C-ACBE23A5C7B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduler.Worker", "JobScheduler.Worker\JobScheduler.Worker.csproj", "{C936753F-FA18-4EBF-B78C-ACBE23A5C7B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0CE764A7-7C21-4378-ACF0-2BF5281C5B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobScheduler.Tests", "JobScheduler.Tests\JobScheduler.Tests.csproj", "{B882CC8C-E9C2-4CD0-9879-281B145ACC0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{C936753F-FA18-4EBF-B78C-ACBE23A5C7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C936753F-FA18-4EBF-B78C-ACBE23A5C7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C936753F-FA18-4EBF-B78C-ACBE23A5C7B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B882CC8C-E9C2-4CD0-9879-281B145ACC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B882CC8C-E9C2-4CD0-9879-281B145ACC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B882CC8C-E9C2-4CD0-9879-281B145ACC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B882CC8C-E9C2-4CD0-9879-281B145ACC0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B882CC8C-E9C2-4CD0-9879-281B145ACC0F} = {0CE764A7-7C21-4378-ACF0-2BF5281C5B65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5E817814-7B8A-4003-8E0F-A4E9DF35867F}

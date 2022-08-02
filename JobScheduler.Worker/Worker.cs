@@ -24,7 +24,7 @@ namespace JobScheduler.Worker
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _rabbitMqContext.ConsumeMessage<TJob>(q => ExecuteJob(q));
+                await _rabbitMqContext.ConsumeMessage<TJob>(q => ExecuteJob(q));
 
                 _logger.LogInformation("Worker running at: {time} {type}", DateTimeOffset.Now, typeof(TJob));
 

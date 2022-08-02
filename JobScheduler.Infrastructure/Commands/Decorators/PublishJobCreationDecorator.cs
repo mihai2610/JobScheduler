@@ -26,7 +26,7 @@ namespace JobScheduler.Infrastructure.Commands.Decorators
         {
             var newJob = await _createJobCommand.Execute<TJob, TInput, TOutput>(input);
 
-            _mqContext.ProduceMessage(newJob);
+            await _mqContext.ProduceMessage(newJob);
 
             return newJob;
         }
