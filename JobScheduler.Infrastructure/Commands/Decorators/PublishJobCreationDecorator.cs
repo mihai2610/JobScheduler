@@ -12,19 +12,23 @@ namespace JobScheduler.Infrastructure.Commands.Decorators
         private readonly IRabbitMqContext _mqContext;
         private readonly ICreateJobCommand _createJobCommand;
 
+        /// <summary>
+        /// Creates an instance of <see cref="PublishJobCreationDecorator"/>
+        /// </summary>
         public PublishJobCreationDecorator(IRabbitMqContext mqContext, ICreateJobCommand createJobCommand)
         {
             _mqContext = mqContext ?? throw new ArgumentNullException(nameof(mqContext));
             _createJobCommand = createJobCommand ?? throw new ArgumentNullException(nameof(createJobCommand));
         }
 
-        public async Task<long> Execute(IReadOnlyCollection<int> input)
+        /// <inheritdoc/>
+        public async Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
         {
-            var newJobId = await _createJobCommand.Execute(input);
+            var newJob = await _createJobCommand.Execute<TJob, TInput, TOutput>(input);
 
-            _mqContext.ProduceMessage(new Job(newJobId, DateTime.Now, null, JobStatusType.PENDING, input, null));
+            _mqContext.ProduceMessage(newJob);
 
-            return newJobId;
+            return newJob;
         }
     }
 }

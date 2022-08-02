@@ -21,13 +21,13 @@ public class GetJobByIdQuery : IGetJobByIdQuery
     }
 
     /// <inheritdoc/>
-    public async Task<Job> Execute(long jobId)
+    public async Task<TJob> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 
         var result = await conn.QuerySingleOrDefaultAsync<JobDto>(_sql, new { JobId = jobId });
 
-        return result.ToModel();
+        return result.ToModel<TJob, TInput, TOutput>();
     }
 
     private readonly static string _sql = $@"

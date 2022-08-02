@@ -8,8 +8,8 @@ namespace JobScheduler.Queries;
 public interface IGetAllJobsQuery
 {
     /// <summary>
-    /// Fetches the list with all jobs
+    /// Fetches the list with all jobs of type <typeparamref name="TJob"/>
     /// </summary>
     /// <returns>List of jobs</returns>
-    Task<IReadOnlyCollection<Job>> Execute();
+    Task<IReadOnlyCollection<TJob>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new();
 }

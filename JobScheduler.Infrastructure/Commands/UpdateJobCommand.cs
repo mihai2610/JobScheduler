@@ -21,7 +21,7 @@ public class UpdateJobCommand : IUpdateJobCommand
     }
 
     /// <inheritdoc/>
-    public async Task<Job> Execute(Job job)
+    public async Task<TJob> Execute<TJob, TInput, TOutput>(TJob job) where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 

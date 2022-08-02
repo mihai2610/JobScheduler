@@ -20,7 +20,7 @@ public class CreateJobCommand : ICreateJobCommand
     }
 
     /// <inheritdoc/>
-    public async Task<long> Execute(IReadOnlyCollection<int> input)
+    public async Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 
@@ -29,10 +29,16 @@ public class CreateJobCommand : ICreateJobCommand
             JobStatusType.PENDING,
             JsonSerializer.Serialize(input));
 
-        var result = await conn.QuerySingleAsync<long>(_sql, request);
+        var newJobId = await conn.QuerySingleAsync<long>(_sql, request);
 
-
-        return result;
+        return new TJob()
+        {
+            JobId = newJobId,
+            Input = input,
+            Duration = null,
+            StartingTime = request.StartingTime,
+            Status = request.Status
+        };
     }
 
     private record CreateJobReques(DateTime StartingTime, JobStatusType Status, string Input);

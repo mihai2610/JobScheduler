@@ -8,9 +8,9 @@ namespace JobScheduler.Queries;
 public interface IGetJobByIdQuery
 {
     /// <summary>
-    /// Method to fetch a job based on <paramref name="jobId"/>
+    /// Method to fetch a job of type <typeparamref name="TJob"/> based on <paramref name="jobId"/> 
     /// </summary>
     /// <param name="jobId"></param>
     /// <returns></returns>
-    Task<Job> Execute(long jobId);
+    Task<TJob> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new();
 }

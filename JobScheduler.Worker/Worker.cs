@@ -4,14 +4,14 @@ using JobScheduler.Models;
 
 namespace JobScheduler.Worker
 {
-    public class Worker<T> : BackgroundService
+    public class Worker<TJob, TInput, TOutput> : BackgroundService where TJob : IJob<TInput, TOutput>, new()
     {
-        private readonly ILogger<Worker<T>> _logger;
+        private readonly ILogger<Worker<TJob, TInput, TOutput>> _logger;
         private readonly IRabbitMqContext _rabbitMqContext;
         private readonly IUpdateJobCommand _updateJobCommand;
 
         public Worker(
-            ILogger<Worker<T>> logger,
+            ILogger<Worker<TJob, TInput, TOutput>> logger,
             IRabbitMqContext rabbitMqContext,
             IUpdateJobCommand updateJobCommand)
         {
@@ -24,24 +24,27 @@ namespace JobScheduler.Worker
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _rabbitMqContext.ConsumeMessage<Job>(ExecuteJob);
+                _rabbitMqContext.ConsumeMessage<TJob>(q => ExecuteJob(q));
 
-                _logger.LogInformation("Worker running at: {time} {type}", DateTimeOffset.Now, typeof(T));
+                _logger.LogInformation("Worker running at: {time} {type}", DateTimeOffset.Now, typeof(TJob));
 
                 await Task.Delay(5000, stoppingToken);
             }
         }
 
-        private async Task ExecuteJob(Job job)
+        private async Task ExecuteJob(TJob job)
         {
-            var updatedjob = job with
+            var updatedjob = new TJob()
             {
-                Output = job.Input.OrderBy(x => x).ToList(),
+                JobId = job.JobId,
+                StartingTime = job.StartingTime,
                 Duration = DateTime.Now - job.StartingTime,
-                Status = JobStatusType.COMPLETED
+                Status = JobStatusType.COMPLETED,
+                Output = await job.Execute(job.Input),
+                Input = job.Input
             };
 
-            await _updateJobCommand.Execute(updatedjob);
+            await _updateJobCommand.Execute<TJob, TInput, TOutput>(updatedjob);
         }
     }
 }

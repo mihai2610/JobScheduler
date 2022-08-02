@@ -29,14 +29,18 @@ public class JobService : IJobService
     }
 
     /// <inheritdoc/>
-    public Task<long> CreateJob(IReadOnlyCollection<int> input) => _createJobCommand.Execute(input);
+    public Task<TJob> CreateJob<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
+        => _createJobCommand.Execute<TJob, TInput, TOutput>(input);
 
     /// <inheritdoc/>
-    public Task<IReadOnlyCollection<Job>> GetAllJobs() => _getAllJobsQuery.Execute();
+    public Task<IReadOnlyCollection<TJob>> GetAllJobs<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
+        => _getAllJobsQuery.Execute<TJob, TInput, TOutput>();
 
     /// <inheritdoc/>
-    public Task<Job> GetJobById(long jobId) => _getJobByIdQuery.Execute(jobId);
+    public Task<TJob> GetJobById<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
+        => _getJobByIdQuery.Execute<TJob, TInput, TOutput>(jobId);
 
     /// <inheritdoc/>
-    public Task<Job> UpdateJob(Job job) => _updateJobCommand.Execute(job);
+    public Task<TJob> UpdateJob<TJob, TInput, TOutput>(TJob job) where TJob : IJob<TInput, TOutput>, new()
+        => _updateJobCommand.Execute<TJob, TInput, TOutput>(job);
 }

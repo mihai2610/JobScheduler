@@ -14,7 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             hostContext.Configuration.GetSection("RabbitMqIdentifier").Bind
         );
 
-        services.AddHostedService<Worker<Job>>();
+        services.AddHostedService<Worker<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>>();
     })
     .Build();
 

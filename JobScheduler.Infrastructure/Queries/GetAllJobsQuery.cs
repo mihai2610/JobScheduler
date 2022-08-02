@@ -21,13 +21,13 @@ public class GetAllJobsQuery : IGetAllJobsQuery
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyCollection<Job>> Execute()
+    public async Task<IReadOnlyCollection<TJob>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 
         var result = await conn.QueryAsync<JobDto>(_sql);
 
-        return result.ToModel();
+        return result.ToModel<TJob, TInput, TOutput>();
     }
 
     private readonly static string _sql = $@"

@@ -5,6 +5,6 @@
     /// </summary>
     /// <param name="Input">Input of the job to be performed</param>
     public record JobRequest(
-        IReadOnlyCollection<int> Input
+        IReadOnlyCollection<long> Input
     );
 }

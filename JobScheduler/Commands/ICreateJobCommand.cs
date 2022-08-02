@@ -12,5 +12,5 @@ public interface ICreateJobCommand
     /// </summary>
     /// <param name="input"></param>
     /// <returns>New job id</returns>
-    Task<long> Execute(IReadOnlyCollection<int> input);
+    Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new();
 }
