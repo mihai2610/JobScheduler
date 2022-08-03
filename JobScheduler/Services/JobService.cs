@@ -2,6 +2,7 @@
 using JobScheduler.Models;
 using JobScheduler.Queries;
 using JobScheduler.Services.Interfaces;
+using LanguageExt.Common;
 
 namespace JobScheduler.Services;
 
@@ -29,18 +30,18 @@ public class JobService : IJobService
     }
 
     /// <inheritdoc/>
-    public Task<TJob> CreateJob<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
+    public Task<Result<TJob>> CreateJob<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
         => _createJobCommand.Execute<TJob, TInput, TOutput>(input);
 
     /// <inheritdoc/>
-    public Task<IReadOnlyCollection<TJob>> GetAllJobs<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
+    public Task<Result<IReadOnlyCollection<TJob>>> GetAllJobs<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
         => _getAllJobsQuery.Execute<TJob, TInput, TOutput>();
 
     /// <inheritdoc/>
-    public Task<TJob> GetJobById<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
+    public Task<Result<TJob>> GetJobById<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
         => _getJobByIdQuery.Execute<TJob, TInput, TOutput>(jobId);
 
     /// <inheritdoc/>
-    public Task<TJob> UpdateJob<TJob, TInput, TOutput>(TJob job) where TJob : IJob<TInput, TOutput>, new()
+    public Task<Result<TJob>> UpdateJob<TJob, TInput, TOutput>(TJob job) where TJob : IJob<TInput, TOutput>, new()
         => _updateJobCommand.Execute<TJob, TInput, TOutput>(job);
 }

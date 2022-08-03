@@ -1,4 +1,5 @@
 ﻿using JobScheduler.Models;
+using LanguageExt.Common;
 
 namespace JobScheduler.Queries;
 
@@ -12,5 +13,5 @@ public interface IGetJobByIdQuery
     /// </summary>
     /// <param name="jobId"></param>
     /// <returns></returns>
-    Task<TJob> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new();
+    Task<Result<TJob>> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new();
 }

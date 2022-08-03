@@ -1,4 +1,5 @@
 ﻿using JobScheduler.Models;
+using LanguageExt.Common;
 
 namespace JobScheduler.Queries;
 
@@ -11,5 +12,5 @@ public interface IGetAllJobsQuery
     /// Fetches the list with all jobs of type <typeparamref name="TJob"/>
     /// </summary>
     /// <returns>List of jobs</returns>
-    Task<IReadOnlyCollection<TJob>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new();
+    Task<Result<IReadOnlyCollection<TJob>>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new();
 }

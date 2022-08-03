@@ -1,4 +1,5 @@
 ﻿using JobScheduler.Models;
+using LanguageExt.Common;
 
 namespace JobScheduler.Commands;
 
@@ -12,5 +13,5 @@ public interface ICreateJobCommand
     /// </summary>
     /// <param name="input"></param>
     /// <returns>New job id</returns>
-    Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new();
+    Task<Result<TJob>> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new();
 }

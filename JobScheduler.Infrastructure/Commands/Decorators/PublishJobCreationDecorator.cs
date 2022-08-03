@@ -1,6 +1,7 @@
 ﻿using JobScheduler.Commands;
 using JobScheduler.Infrastructure.DependencyInjection.MqClient;
 using JobScheduler.Models;
+using LanguageExt.Common;
 
 namespace JobScheduler.Infrastructure.Commands.Decorators
 {
@@ -22,7 +23,7 @@ namespace JobScheduler.Infrastructure.Commands.Decorators
         }
 
         /// <inheritdoc/>
-        public async Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
+        public async Task<Result<TJob>> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
         {
             var newJob = await _createJobCommand.Execute<TJob, TInput, TOutput>(input);
 

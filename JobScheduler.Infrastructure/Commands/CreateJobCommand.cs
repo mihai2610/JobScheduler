@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using JobScheduler.Commands;
+using JobScheduler.Exceptions;
 using JobScheduler.Infrastructure.DependencyInjection.DbClient;
 using JobScheduler.Models;
+using LanguageExt.Common;
 using System.Text.Json;
 
 namespace JobScheduler.Infrastructure.Commands;
@@ -20,7 +22,17 @@ public class CreateJobCommand : ICreateJobCommand
     }
 
     /// <inheritdoc/>
-    public async Task<TJob> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
+    public Task<Result<TJob>> Execute<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
+    {
+        if(input is null)
+        {
+            return Task.FromResult(new Result<TJob>(new BadRequestException("Job input cannot be null!")));
+        }
+
+        return ExecuteInternal<TJob, TInput, TOutput>(input);
+    }
+
+    private async Task<Result<TJob>> ExecuteInternal<TJob, TInput, TOutput>(TInput input) where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 

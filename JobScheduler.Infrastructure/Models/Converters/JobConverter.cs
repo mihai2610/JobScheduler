@@ -5,7 +5,7 @@ namespace JobScheduler.Infrastructure.Models.Converters;
 
 internal static class JobConverter
 {
-    public static TJob ToModel<TJob, TInput, TOutput>(this JobDto job) where TJob : IJob<TInput, TOutput>, new() => new()
+    public static TJob ToModel<TJob, TInput, TOutput>(this JobDto job) where TJob : IJob<TInput, TOutput>, new() => new TJob()
     {
         JobId = job.JobId,
         StartingTime = DateTime.Parse(job.StartingTime),
@@ -15,6 +15,6 @@ internal static class JobConverter
         Output = job.Output is null ? default : JsonSerializer.Deserialize<TOutput>(job.Output) // to remove default
     };
 
-    public static IReadOnlyCollection<TJob> ToModel<TJob, TInput, TOutput>(this IEnumerable<JobDto> jobs) where TJob : IJob<TInput, TOutput>, new() =>
+    public static List<TJob> ToModel<TJob, TInput, TOutput>(this IEnumerable<JobDto> jobs) where TJob : IJob<TInput, TOutput>, new() =>
         jobs.Select(q => q.ToModel<TJob, TInput, TOutput>()).ToList();
 }

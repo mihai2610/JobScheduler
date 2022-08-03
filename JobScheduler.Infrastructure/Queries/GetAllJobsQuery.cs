@@ -1,9 +1,11 @@
 ﻿using Dapper;
+using JobScheduler.Exceptions;
 using JobScheduler.Infrastructure.DependencyInjection.DbClient;
 using JobScheduler.Infrastructure.Models;
 using JobScheduler.Infrastructure.Models.Converters;
 using JobScheduler.Models;
 using JobScheduler.Queries;
+using LanguageExt.Common;
 
 namespace JobScheduler.Infrastructure.Queries;
 
@@ -21,7 +23,7 @@ public class GetAllJobsQuery : IGetAllJobsQuery
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyCollection<TJob>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
+    public async Task<Result<IReadOnlyCollection<TJob>>> Execute<TJob, TInput, TOutput>() where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 

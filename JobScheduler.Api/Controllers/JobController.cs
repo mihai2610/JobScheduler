@@ -1,4 +1,5 @@
-﻿using JobScheduler.Api.Models;
+﻿using JobScheduler.Api.Extentions;
+using JobScheduler.Api.Models;
 using JobScheduler.Api.Models.Converters;
 using JobScheduler.Models;
 using JobScheduler.Services.Interfaces;
@@ -27,10 +28,11 @@ namespace JobScheduler.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<long>> Create([FromBody]JobRequest job)
+        public async Task<ActionResult<JobView>> Create([FromBody] JobRequest job)
         {
             var jobId = await _jobService.CreateJob<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>(job.Input);
-            return Ok(jobId);
+
+            return jobId.ToResponse(q => q.ToView());
         }
 
         [HttpGet]
@@ -38,7 +40,7 @@ namespace JobScheduler.Api.Controllers
         {
             var allJobs = await _jobService.GetAllJobs<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>();
 
-            return Ok(allJobs.ToView());
+            return allJobs.ToResponse(q => q.ToView());
         }
 
         [HttpGet]
@@ -47,7 +49,7 @@ namespace JobScheduler.Api.Controllers
         {
             var job = await _jobService.GetJobById<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>(id);
 
-            return Ok(job.ToView());
+            return job.ToResponse(q => q.ToView());
         }
     }
 }

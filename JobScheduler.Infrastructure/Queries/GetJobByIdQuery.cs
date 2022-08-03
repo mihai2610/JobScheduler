@@ -1,9 +1,11 @@
 ﻿using Dapper;
+using JobScheduler.Exceptions;
 using JobScheduler.Infrastructure.DependencyInjection.DbClient;
 using JobScheduler.Infrastructure.Models;
 using JobScheduler.Infrastructure.Models.Converters;
 using JobScheduler.Models;
 using JobScheduler.Queries;
+using LanguageExt.Common;
 
 namespace JobScheduler.Infrastructure.Queries;
 
@@ -21,11 +23,16 @@ public class GetJobByIdQuery : IGetJobByIdQuery
     }
 
     /// <inheritdoc/>
-    public async Task<TJob> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
+    public async Task<Result<TJob>> Execute<TJob, TInput, TOutput>(long jobId) where TJob : IJob<TInput, TOutput>, new()
     {
         using var conn = _context.GetConnection();
 
         var result = await conn.QuerySingleOrDefaultAsync<JobDto>(_sql, new { JobId = jobId });
+
+        if(result is null)
+        {
+            return new Result<TJob>(new ConflictException($"Could not find a job with id = {jobId}"));
+        }
 
         return result.ToModel<TJob, TInput, TOutput>();
     }
