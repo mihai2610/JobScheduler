@@ -4,7 +4,7 @@ namespace JobScheduler.Api.Models.Converters
 {
     internal static class JobConverter
     {
-        public static JobView ToView(this SortListJob job) => new(
+        public static JobView ToView<I,O>(this IJob<I,O> job) => new(
             job.JobId,
             job.StartingTime,
             job.Duration,
@@ -13,7 +13,7 @@ namespace JobScheduler.Api.Models.Converters
             job.Output
         );
 
-        public static IReadOnlyCollection<JobView> ToView(this IEnumerable<SortListJob> jobs) =>
+        public static IReadOnlyCollection<JobView> ToView(this IEnumerable<ReadOnlyJob> jobs) =>
             jobs.Select(q => q.ToView()).ToList();
     }
 }

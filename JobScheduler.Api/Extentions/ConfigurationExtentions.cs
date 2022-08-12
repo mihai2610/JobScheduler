@@ -1,4 +1,5 @@
-﻿using JobScheduler.Infrastructure.DependencyInjection;
+﻿using JobScheduler.Api.Utils;
+using JobScheduler.Infrastructure.DependencyInjection;
 using JobScheduler.Infrastructure.Extentions;
 using JobScheduler.Services;
 using JobScheduler.Services.Interfaces;
@@ -11,6 +12,7 @@ public static class ConfigurationExtentions
     {
         //Services
         services.AddScoped<IJobService, JobService>();
+        services.AddScoped<IJobsFactory, JobsFactory>();
 
         //Infrastructure
         services.AddInfrastructure();

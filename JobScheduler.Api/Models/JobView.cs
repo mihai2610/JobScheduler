@@ -12,7 +12,7 @@
         DateTime StartingTime,
         TimeSpan? Duration,
         string Status,
-        IReadOnlyCollection<long> Input,
-        IReadOnlyCollection<long>? Output
+        object Input,
+        object? Output
     );
 }
