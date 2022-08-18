@@ -9,7 +9,7 @@ public class ReadOnlyJob : IJob<string, string?>
     public DateTime StartingTime { get; set; }
     public TimeSpan? Duration { get; set; }
     public JobStatusType Status { get; set; }
-    public string Input { get; set; }
+    public string Input { get; set; } = default!;
     public string? Output { get; set; }
 
     public Task<string?> Execute(string input)

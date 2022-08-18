@@ -18,20 +18,24 @@ public class JobController : ControllerBase
 {
     private readonly IJobService _jobService;
     private readonly IJobsFactory _jobsFactory;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Creates an instance of <see cref="JobController"/>
     /// </summary>
-    public JobController(IJobService jobService, IJobsFactory jobsFactory)
+    public JobController(IJobService jobService, IJobsFactory jobsFactory, ILogger logger)
     {
         _jobService = jobService ?? throw new ArgumentNullException(nameof(jobService));
         _jobsFactory = jobsFactory ?? throw new ArgumentNullException(nameof(jobsFactory));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpPost]
     public async Task<ActionResult<JobView>> Create([FromBody] JobRequest job)
     {
-        return await _jobsFactory.CreateJob(job.JobType, job.Input);
+        var res = await _jobsFactory.CreateJob(job.JobType, job.Input);
+
+        return res.ToResponse(_logger);
     }
 
     [HttpGet]
@@ -39,7 +43,7 @@ public class JobController : ControllerBase
     {
         var allJobs = await _jobService.GetAllJobs<ReadOnlyJob, string, string?>();
 
-        return allJobs.ToResponse(q => q.ToView());
+        return allJobs.ToResponse(q => q.ToView(), _logger);
     }
 
     [HttpGet]
@@ -48,6 +52,6 @@ public class JobController : ControllerBase
     {
         var job = await _jobService.GetJobById<ReadOnlyJob, string, string?>(id);
 
-        return job.ToResponse(q => q.ToView());
+        return job.ToResponse(q => q.ToView(), _logger);
     }
 }

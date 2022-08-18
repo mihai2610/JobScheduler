@@ -1,10 +1,10 @@
 ﻿using JobScheduler.Api.Extentions;
 using JobScheduler.Api.Models;
 using JobScheduler.Api.Models.Converters;
+using JobScheduler.Extentions;
 using JobScheduler.Models;
 using JobScheduler.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+using LanguageExt.Common;
 
 namespace JobScheduler.Api.Utils;
 
@@ -19,7 +19,7 @@ public interface IJobsFactory
     /// <param name="jobType">Type of the job that is going to be executed</param>
     /// <param name="input">Input for the job that is going to be executed</param>
     /// <returns>Job type, input type and outptu type</returns>
-    Task<ActionResult<JobView>> CreateJob(JobType jobType, object input);
+    Task<Result<JobView>> CreateJob(JobType jobType, object input);
 }
 
 /// <inheritdoc/>
@@ -37,14 +37,13 @@ public class JobsFactory : IJobsFactory
     }
 
     /// <inheritdoc/>
-    public async Task<ActionResult<JobView>> CreateJob(JobType jobType, object input) =>
+    public async Task<Result<JobView>> CreateJob(JobType jobType, object input) =>
         jobType switch
         {
             JobType.SortListOfLong =>
-                (await _jobService
-                    .CreateJob<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>
-                            (JsonSerializer.Deserialize<IReadOnlyCollection<long>>((JsonElement)input)))
-                                        .ToResponse(q => q.ToView()),
+                 (await Task.FromResult(input.ToModelTypeInput<IReadOnlyCollection<long>>())
+                    .BindT(async q => await _jobService.CreateJob<SortListJob, IReadOnlyCollection<long>, IReadOnlyCollection<long>>(q))
+                 ).Map(q => q.ToView()),
             _ => throw new NotImplementedException()
         };
 }
